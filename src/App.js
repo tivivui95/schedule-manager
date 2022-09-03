@@ -14,7 +14,8 @@ class App extends Component {
       isLogIn: false, 
       isAdmin: false,
       username: '',
-      password: '' });
+      password: '',
+      curUser: '' });
     this.submitCallback = this.submitCallback.bind(this);
     this.logIn = this.logIn.bind(this);
   }
@@ -70,7 +71,6 @@ class App extends Component {
   }
 
   render() {
-    let username = 'john';
     console.log(this.state.data);
     return (
       <div>
@@ -83,11 +83,11 @@ class App extends Component {
           <Button onClick={this.logIn}>Log In</Button>
         </div> : this.state.isAdmin ? 
         <Manage 
-        username={username} 
+        username={this.state.curUser} 
         data={this.state.data} 
         logout={this.logOut} /> :
         <Users 
-        username={username} 
+        username={this.state.curUser} 
         data={this.state.data} 
         logout={this.logOut}
         submitCallback={this.submitCallback} />}
