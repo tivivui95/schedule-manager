@@ -1,0 +1,49 @@
+{
+    "users": [
+        {
+            "username": "john",
+            "name": "John Doe",
+            "password": "12345678",
+            "courses": ["Math"]
+        },
+        {
+            "username": "lerry",
+            "name": "Mike Lerry",
+            "password": "12345678",
+            "courses": []
+        },
+        {
+            "username": "nguyen",
+            "name": "Levin Nguyen",
+            "password": "12345678",
+            "courses": []
+        }
+    ],
+    "subjects": [
+        {
+            "name": "Math",
+            "datestart": "09/09/2022",
+            "maxcap": 50,
+            "users": ["john"]
+        },
+        {
+            "name": "Physics",
+            "datestart": "10/09/2022",
+            "maxcap": 10,
+            "users": []
+        },
+        {
+            "name": "Chemistry",
+            "datestart": "11/09/2022",
+            "maxcap": 20,
+            "users": []
+        }
+    ],
+    "admins": [
+        {
+            "username": "admin",
+            "name": "Administrator",
+            "password": "12345678"
+        }
+    ]
+}
