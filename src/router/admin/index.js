@@ -17,6 +17,7 @@ class Manage extends Component {
         userinfo: this.props.data.admins.find(o => o.username = this.props.username)
     }
   }
+  
   render() {
     let data = this.props.data;
     return (
