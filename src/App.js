@@ -1,9 +1,11 @@
-import { Button } from '@mui/material';
+import { Button, Container, TextField, Grid } from '@mui/material';
 import React, { Component }  from 'react';
 import './App.css';
 import data from './data.json';
 import Manage from './router/admin';
 import Users from './router/users';
+import VpnKeyRoundedIcon from '@material-ui/icons/VpnKeyRounded';
+import SchoolIcon from '@material-ui/icons/School';
 
 class App extends Component {
 
@@ -45,21 +47,28 @@ class App extends Component {
   }
 
   logIn() {
-    this.state.data.users.forEach(element => {
+    for (let i = 0; i < this.state.data.users.length; i++) {
+      const element = this.state.data.users[i];
       if (element.username === this.state.username)
       if (element.password === this.state.password) {
         this.setState({ curUser: element.username, isLogIn: true, isAdmin: false });
+        // alert('Welcome!');
+        // break;
         return;
       } 
-    });
-    this.state.data.admins.forEach(element => {
+    }
+    for (let i = 0; i < this.state.data.admins.length; i++) {
+      const element = this.state.data.admins[i];
       if (element.username === this.state.username)
       if (element.password === this.state.password) {
         this.setState({ curUser: element.username, isLogIn: true, isAdmin: true });
+        // alert('Welcome!');
+        // break;
         return;
       } 
-    });
-    this.isLogIn ? alert('Username or Password is Incorrect!'): alert('Welcome!');
+    }
+    alert('Username or Password is Incorrect!');
+    // !this.isLogIn ? alert('Username or Password is Incorrect!') : alert('Welcome!');
   }
 
   handleUsername = (event) => {
@@ -75,12 +84,35 @@ class App extends Component {
     return (
       <div>
         { !this.state.isLogIn ? <div>
-          <label>Username</label>
-          <input type='text' value={this.state.username} onChange={this.handleUsername} />
-          <label>Password</label>
-          <input type='password' value={this.state.password} onChange={this.handlePassword} />
-          <br></br>
-          <Button onClick={this.logIn}>Log In</Button>
+          <Container maxWidth="sm">
+          <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3}>
+            <Grid item xs>
+              <h1>Log in</h1>
+            </Grid>
+            <Grid item xs>
+              <SchoolIcon />
+            </Grid>            
+            <Grid item xs>
+              <TextField
+              id="standard-basic" 
+              label='Username' 
+              type='text' 
+              value={this.state.username} 
+              onChange={this.handleUsername} />
+            </Grid>
+            <Grid item xs>
+              <TextField 
+              id="standard-basic" 
+              label='Password' 
+              type='password' 
+              value={this.state.password} 
+              onChange={this.handlePassword} />
+            </Grid>
+            <Grid item xs>
+              <Button variant="contained" color="primary" onClick={this.logIn}><VpnKeyRoundedIcon /> &nbsp; Log In</Button>
+            </Grid>
+          </Grid>            
+          </Container>
         </div> : this.state.isAdmin ? 
         <Manage 
         username={this.state.curUser} 

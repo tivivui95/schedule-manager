@@ -1,5 +1,13 @@
 import React, { Component }  from 'react';
-import { Button } from '@mui/material';
+import { Container, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import Paper from '@material-ui/core/Paper';
 
 class Manage extends Component {
 
@@ -12,50 +20,68 @@ class Manage extends Component {
   render() {
     let data = this.props.data;
     return (
-      <div>
+      <Container sm>
+        <BottomNavigation
+                value={this.state.value}
+                onChange={(event, newValue) => {
+                    this.setState({ value: newValue });
+                }}
+                showLabels
+                >
+                <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+                <BottomNavigationAction label="Log Out" icon={<ExitToAppIcon />} onClick={() => this.props.logout()} />
+                </BottomNavigation>
         <h1>Welcome {this.state.userinfo.name}</h1>
-        <Button onClick={() => this.props.logout()}>Log Out</Button>
         <div>
-          <h3>View by Students</h3>
-          {data.users.map((item, index) => (<div>
-            <h3>Name: {item.name}</h3>
-            {item.courses.length !== 0 ? 
-            <table>
-              <tr>
-                <th>Course Name</th>
-                <th>Date Started</th>
-                <th>Max Capacity</th>
-              </tr>
-              {item.courses.map(course => {
-              let crsinfo = data.subjects.find(o => o.name === course);
-              return (<tr>
-                <td>{crsinfo.name}</td>
-                <td>{crsinfo.datestart}</td>
-                <td>{crsinfo.maxcap}</td>
-                </tr>)
-            })}</table>: ''}
-          </div>))}
+          <h3>1. View by Students</h3>
+          <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                {data.users.map((item, index) => (<>
+                  <TableHead>
+                    <TableCell>Name and Username:</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.username}</TableCell>
+                  </TableHead>
+                  {item.courses.length !== 0 ? 
+                  <>
+                    <TableHead>
+                      <TableCell>Course Name</TableCell>
+                      <TableCell>Date Started</TableCell>
+                      <TableCell>Max Capacity</TableCell>
+                    </TableHead>
+                    {item.courses.map(course => {
+                    let crsinfo = data.subjects.find(o => o.name === course);
+                    return (<TableBody>
+                      <TableCell>{crsinfo.name}</TableCell>
+                      <TableCell>{crsinfo.datestart}</TableCell>
+                      <TableCell>{crsinfo.maxcap}</TableCell>
+                      </TableBody>)
+                  })}</>: <TableBody><TableCell>No course</TableCell></TableBody>}
+                </>))}
+                </Table>
+                </TableContainer>
         </div>
         <div>
-          <h3>View by Courses</h3>
+          <h3>2. View by Courses</h3>
           {data.subjects.map((item, index) => (<div>
             <h3>Course Name: {item.name}</h3>
             {item.users.length !== 0 ? 
-            <table>
-              <tr>
-                <th>Students Name</th>
-                <th>Username</th>
-              </tr>
+            <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableCell>Students Name</TableCell>
+                <TableCell>Username</TableCell>
+              </TableHead>
               {item.users.map(user => {
               let crsinfo = data.users.find(o => o.username === user);
-              return (<tr>
-                <td>{crsinfo.name}</td>
-                <td>{crsinfo.username}</td>
-                </tr>)
-            })}</table>: ''}
+              return (<TableBody>
+                <TableCell>{crsinfo.name}</TableCell>
+                <TableCell>{crsinfo.username}</TableCell>
+                </TableBody>)
+            })}</Table></TableContainer>: 'No student'}
           </div>))}
         </div>
-      </div>
+      </Container>
     )
   }
 }
